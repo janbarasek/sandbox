@@ -12,9 +12,10 @@ final class FormFactory
 {
 	use Nette\SmartObject;
 
-	public function create(): Form
+	public function create(string $mappedType = \stdClass::class): Form
 	{
 		$form = new Form;
+		$form->setMappedType($mappedType);
 		return $form;
 	}
 }

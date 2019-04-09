@@ -29,7 +29,8 @@ final class SignInFormFactory
 
 	public function create(callable $onSuccess): Form
 	{
-		$form = $this->factory->create();
+		$form = $this->factory->create(SignInFormData::class);
+
 		$form->addText('username', 'Username:')
 			->setRequired('Please enter your username.');
 
@@ -40,7 +41,7 @@ final class SignInFormFactory
 
 		$form->addSubmit('send', 'Sign in');
 
-		$form->onSuccess[] = function (Form $form, \stdClass $values) use ($onSuccess): void {
+		$form->onSuccess[] = function (Form $form, SignInFormData $values) use ($onSuccess): void {
 			try {
 				$this->user->setExpiration($values->remember ? '14 days' : '20 minutes');
 				$this->user->login($values->username, $values->password);

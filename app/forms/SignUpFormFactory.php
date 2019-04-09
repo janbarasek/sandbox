@@ -31,7 +31,8 @@ final class SignUpFormFactory
 
 	public function create(callable $onSuccess): Form
 	{
-		$form = $this->factory->create();
+		$form = $this->factory->create(SignUpFormData::class);
+
 		$form->addText('username', 'Pick a username:')
 			->setRequired('Please pick a username.');
 
@@ -45,7 +46,7 @@ final class SignUpFormFactory
 
 		$form->addSubmit('send', 'Sign up');
 
-		$form->onSuccess[] = function (Form $form, \stdClass $values) use ($onSuccess): void {
+		$form->onSuccess[] = function (Form $form, SignUpFormData $values) use ($onSuccess): void {
 			try {
 				$this->userManager->add($values->username, $values->email, $values->password);
 			} catch (Model\DuplicateNameException $e) {
